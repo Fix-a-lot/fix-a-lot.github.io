@@ -1,0 +1,104 @@
+@charset "utf-8";
+
+input, select, textarea { 
+  margin: 1px 1px 1px 1px;
+}
+button { 
+  margin: 1px 1px 1px 1px;
+}
+/* 
+// prism.js로 대체함
+code { 
+  padding: 4px; white-space: nowrap; background-color: #EFEFEF;
+}
+pre { 
+  padding: 20px 10px 20px 10px; background-color: #EFEFEF;
+} */
+/* 
+// 이건 왜 했더라?
+body {
+  margin-top: 20px;
+  text-align: center;
+  background: #ffffff;
+  color: #000000;
+} */
+.align-center { 
+  max-width: 60%;
+  text-align: left;
+  margin: 30px auto;
+}
+hr.light { 
+  margin: 15px 0; 
+  border: none;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.margin-vertical {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.result {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: rgba(0, 0, 0, 0.02);
+  border: rgba(0, 0, 0, 0.082) 1px solid;
+  border-radius: 3px;
+  display: block;
+  min-height: 20px;
+  padding: 8px 12px;
+  text-decoration: none;
+}
+.description {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: rgba(210, 172, 98, 0.08);
+  border: rgba(0, 0, 0, 0.082) 1px solid;
+  border-radius: 3px;
+  display: block;
+  min-height: 20px;
+  padding: 8px 12px;
+  text-decoration: none;
+}
+.button-wrapper {
+  text-align: left;
+  margin: 60px 1px 1px 1px;
+}
+a.back-button {
+  background: #2F3545;
+	color: rgb(255, 255, 255);
+	border: 1px solid grey;
+	padding: 6px 10px;
+}
+.btns {
+  display: inline-block;
+  min-width: 100px;
+  height: 36px;
+  line-height: 34px;
+  padding: 0 15px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  text-align: center;
+  color: #000;
+  vertical-align: middle;
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 4px;
+}
+.btns.effect {
+  box-shadow: 1px 1px #999;
+}
+.btns.effect:active {
+  box-shadow: 0 0 #666;
+  transform: translateX(1px) translateY(1px);
+}
+.btns.pointBtn {
+  border-color: #4ab74d;
+  background-color: #4ab74d;
+  color: #fff;
+}
+.btns.ver-large {
+  min-width: 130px;
+  height: 40px;
+  line-height: 38px;
+  padding: 0 20px;
+}
