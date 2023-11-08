@@ -10,15 +10,17 @@
 <link rel="stylesheet" href="/css/style.css"/>
 <title>fixalot.github.io</title>
 <article class="align-center">
-  <h1>식사 당번 뽑기</h1>
+  <h1>당번 뽑기</h1>
   <div>
-    <input style="width: 70%" type="text" id="txtInpt1" placeholder="구분자: 쉼표, 띄어쓰기, 파이프" >
+    <input style="width: 100%" type="text" id="txtInpt1" placeholder="쉼표로 구분하세요. (예: 김, 이, 박)" >
   </div>
   <div style="margin-top: 10px; ">
-    <button class="btns effect ver-large" style="background-color: gainsboro;" id="btn1" type="button">뽑!</button>
+    <button class="btns effect ver-large" style="background-color: gainsboro; height: 100px" id="btn1" type="button">뽑!</button>
   </div>
-  <div style="margin-top: 10px; width: 70%">
-    <textarea id="txtAr1"></textarea>
+  <div style="margin-top: 10px; width: 70%; display: none;" class="result" id="result">
+    <ul id="result-ul">
+
+    </ul>
   </div>
 </article>
 </head>
