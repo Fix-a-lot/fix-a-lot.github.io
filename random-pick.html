@@ -14,15 +14,25 @@
   <main class="align-center">
     <h1>당번 뽑기</h1>
     <article>
-      <div>
-        <input style="width: 100%" type="text" id="txtInpt1" autofocus placeholder="공백으로 구분하세요. (예: 김 이 박)" >
-      </div>
-      <div style="margin-top: 10px; ">
-        <button class="btns effect ver-large" style="background-color: gainsboro; height: 100px" id="btn1" type="button">뽑!</button>
-      </div>
-      <div style="margin-top: 10px; width: 70%; display: none;" class="result" id="result">
-        <ul id="result-ul"></ul>
-      </div>
+      <section>
+        <div>
+          <input style="width: 100%" type="text" id="txtInpt1" autofocus placeholder="공백으로 구분하세요. (예: 김 이 박)" >
+        </div>
+        <div style="margin-top: 10px; ">
+          <button class="btns effect ver-large" style="background-color: gainsboro; height: 100px" id="btn1" type="button">뽑!</button>
+          <!-- <p><button class="btns ver-mini effect" data-value="장 이 배 유 임 황 조 안 문 수">프리셋</button> 장 이 배 유 임 황 조 안 문 수</p> -->
+        </div>
+        <div style="margin-top: 10px; width: 70%; display: none;" class="result" id="result">
+          <ul id="result-ul"></ul>
+        </div>
+      </section>
+      <section>
+        <!-- 
+          TODO
+          - 프리셋
+          - 지난 당번(+시간)
+        -->
+      </section>
     </article>
   </main>
   <script type="module" src="/js/random-pick.js"></script>
