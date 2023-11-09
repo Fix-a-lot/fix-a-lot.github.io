@@ -2,6 +2,7 @@ let $txtInpt1 = document.querySelector('#txtInpt1');
 let $btn1 = document.querySelector('#btn1');
 let $result = document.querySelector('#result');
 let $resultUl = document.querySelector('#result-ul');
+let $historyUl = document.querySelector('#history-ul');
 
 /**
  * 무작위로 양의 정수 구하기
@@ -14,20 +15,24 @@ function getRandomInt(minimum, range) {
   return Math.floor(Math.random() * range + minimum);
 }
 
-function clear() {
-  while ($resultUl.firstChild) {
-    $resultUl.removeChild($resultUl.firstChild);
+function clear(parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
   }
 }
 
-function appendLi(innerText) {
+function appendLi({parent, innerText}) {
   let $li = document.createElement('li');
   $li.innerText = innerText;
-  $resultUl.appendChild($li);
+  parent.appendChild($li);
+}
+
+function drawResult({parent, playResults}) {
+  playResults.forEach(ele => appendLi({parent, innerText: `${ele.who}: ${ele.numTxt}`}));
 }
 
 function pickWinner(players) {
-  let nums = [];
+  let playResults = [];
   for (let i in players) {
     let player = players[i];
     console.debug('player:', player);
@@ -37,15 +42,46 @@ function pickWinner(players) {
       num: randomNumber,
       numTxt: String(randomNumber).padStart(2, '0')
     }
-    nums.push(obj);
-    // appendLi(`${obj.who}: ${obj.num}`);
+    playResults.push(obj);
   }
-  // let max = nums.reduce((a, b) => a.num > b.num ? a : b);
-  let min = nums.reduce((a, b) => a.num > b.num ? b : a);
+  let min = playResults.reduce((a, b) => a.num > b.num ? b : a);
   min.numTxt += ' 🥳';
-  // appendLi(`높은 숫자: ${max.who} ${max.num}`);
-  // appendLi(`낮은 숫자: ${min.who} ${min.num}`);
-  nums.forEach(ele => appendLi(`${ele.who}: ${ele.numTxt}`));
+  drawResult({parent: $resultUl, playResults});
+  return min;
+}
+
+/**
+ * 뽑 이력
+ * 
+ * @returns Object[]
+ */
+function getWinningHistory() {
+  let winningHistory = localStorage.getItem('win-hist');
+  if (!winningHistory) {
+    return [];
+  }
+  return JSON.parse(winningHistory);
+}
+
+function putWinnerStorage(winner) {
+  let winningHistory = getWinningHistory();
+  winningHistory.unshift({
+    when: new Date().toLocaleString(),
+    winner
+  });
+  winningHistory = cutHistory(winningHistory);
+  localStorage.setItem('win-hist', JSON.stringify(winningHistory));
+}
+
+function cutHistory(winningHistory) {
+  if (winningHistory.length > 100) {
+    winningHistory = winningHistory.slice(0, 100);
+  }
+  return winningHistory;
+}
+
+function drawHistory(winningHistory) {
+  winningHistory.forEach(ele => appendLi({parent: $historyUl, innerText: `${ele.when}: ${ele.winner.who}`}))
 }
 
 function handleInputKeydown(e) {
@@ -56,15 +92,18 @@ function handleInputKeydown(e) {
 }
 
 function handleButtonClick() {
-  clear();
+  clear($resultUl);
+  clear($historyUl);
   let value = $txtInpt1.value;
   if (!value) {
     return;
   }
   let players = value.split(' ');
   console.debug('values:', players);
-  pickWinner(players);
   $result.style.display = 'block';
+  let winner = pickWinner(players);
+  putWinnerStorage(winner);
+  drawHistory(getWinningHistory());
 }
 
 (function() {
