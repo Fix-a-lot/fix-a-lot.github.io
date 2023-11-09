@@ -106,9 +106,13 @@ function handleButtonClick() {
   drawHistory(getWinningHistory());
 }
 
-(function() {
+function attachEventHandlers() {
   $btn1.addEventListener('click', handleButtonClick);
   $txtInpt1.addEventListener('keydown', handleInputKeydown);
-  $txtInpt1.value = localStorage.getItem('playerList');
-})();
+}
 
+(function fireImmediatly() {
+  attachEventHandlers()
+  $txtInpt1.value = localStorage.getItem('playerList');
+  drawHistory(getWinningHistory());
+})();
