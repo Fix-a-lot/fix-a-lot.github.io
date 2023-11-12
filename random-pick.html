@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="/image/niniz-bbanya.jpg">
-  <link rel="shortcut icon" href="/image/niniz-bbanya.jpg">
-  <link rel="stylesheet" href="/css/normalize.css" />
-  <link rel="stylesheet" href="/css/letters.css" />
-  <link rel="stylesheet" href="/css/style.css"/>
-  <title>fixalot.github.io</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/image/niniz-bbanya.jpg">
+<link rel="shortcut icon" href="/image/niniz-bbanya.jpg">
+<link rel="stylesheet" href="/css/normalize.css" />
+<link rel="stylesheet" href="/css/letters.css" />
+<link rel="stylesheet" href="/css/style.css"/>
+<title>fixalot.github.io</title>
+<style>
+.container {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 20px;
+}
+</style>
 </head>
 <body>
-  <main class="align-center">
-    <h1>당번 뽑기</h1>
+<main class="align-center">
+  <h1>당번 뽑기</h1>
+  <div class="container">
     <article>
       <section>
-        <div>
-          <input style="width: 100%" type="text" id="txtInpt1" autofocus placeholder="공백으로 구분하세요. (예: 김 이 박)" >
+        <div style="display: flex">
+          <input style="width: 70%" type="text" id="txtInpt1" autofocus tabindex="1" placeholder="공백으로 구분하세요. (예: 김 이 박)" >
+          <button class="btns blue" tabindex="2" type="button" id="btn2">목록 저장</button>
         </div>
         <div style="margin-top: 10px; ">
           <button class="btns effect ver-large" style="background-color: gainsboro; height: 100px" id="btn1" type="button">뽑!</button>
           <!-- <p><button class="btns ver-mini effect" data-value="장 이 배 유 임 황 조 안 문 수">프리셋</button> 장 이 배 유 임 황 조 안 문 수</p> -->
         </div>
         <div style="margin-top: 10px; width: 70%; display: none;" class="result" id="result">
-          <ul id="result-ul"></ul>
+          <ul id="resultList"></ul>
         </div>
       </section>
       <section>
         <div class="description">
-          <ul id="history-ul"></ul>
+          <ul id="histories"></ul>
         </div>
       </section>
       <section>
@@ -39,7 +48,12 @@
         -->
       </section>
     </article>
-  </main>
-  <script type="module" src="/js/random-pick.js"></script>
+    <aside>
+      <ul id="saveList"></ul>
+    </aside>
+  </div>
+</main>
+  
+<script type="module" src="/js/random-pick.js"></script>
 </body>
 </html>

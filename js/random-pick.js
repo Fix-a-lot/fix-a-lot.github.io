@@ -1,8 +1,10 @@
 let $txtInpt1 = document.querySelector('#txtInpt1');
-let $btn1 = document.querySelector('#btn1');
+let $pickBtn = document.querySelector('#btn1');
+let $saveBtn = document.querySelector('#btn2');
 let $result = document.querySelector('#result');
-let $resultUl = document.querySelector('#result-ul');
-let $historyUl = document.querySelector('#history-ul');
+let $resultList = document.querySelector('#resultList');
+let $histories = document.querySelector('#histories');
+let $saveList = document.querySelector('#saveList');
 
 /**
  * 무작위로 양의 정수 구하기
@@ -21,14 +23,14 @@ function clear(parent) {
   }
 }
 
-function appendLi({parent, innerText}) {
+function appendLiText({parent, innerText}) {
   let $li = document.createElement('li');
   $li.innerText = innerText;
   parent.appendChild($li);
 }
 
 function drawResult({parent, playResults}) {
-  playResults.forEach(ele => appendLi({parent, innerText: `${ele.who}: ${ele.numTxt}`}));
+  playResults.forEach(ele => appendLiText({parent, innerText: `${ele.who}: ${ele.numTxt}`}));
 }
 
 function pickWinner(players) {
@@ -46,7 +48,7 @@ function pickWinner(players) {
   }
   let min = playResults.reduce((a, b) => a.num > b.num ? b : a);
   min.numTxt += ' 🥳';
-  drawResult({parent: $resultUl, playResults});
+  drawResult({parent: $resultList, playResults});
   return min;
 }
 
@@ -55,7 +57,7 @@ function pickWinner(players) {
  * 
  * @returns Object[]
  */
-function getWinningHistory() {
+function loadWinningHistory() {
   let winningHistory = localStorage.getItem('win-hist');
   if (!winningHistory) {
     return [];
@@ -63,8 +65,8 @@ function getWinningHistory() {
   return JSON.parse(winningHistory);
 }
 
-function putWinnerStorage(winner) {
-  let winningHistory = getWinningHistory();
+function storeWinners(winner) {
+  let winningHistory = loadWinningHistory();
   winningHistory.unshift({
     when: new Date().toLocaleString(),
     winner
@@ -80,20 +82,64 @@ function cutHistory(winningHistory) {
   return winningHistory;
 }
 
-function drawHistory(winningHistory) {
-  winningHistory.forEach(ele => appendLi({parent: $historyUl, innerText: `${ele.when}: ${ele.winner.who}`}))
+function drawHistory({parent, winningHistory}) {
+  winningHistory.forEach(ele => appendLiText({parent, innerText: `${ele.when}: ${ele.winner.who}`}))
+}
+
+function loadPlayersList() {
+  let playersList = localStorage.getItem('playersList');
+  return playersList ? JSON.parse(playersList) : [];
+}
+
+function storePlayersList(players) {
+  let playersList = loadPlayersList();
+  playersList.unshift(players);
+  localStorage.setItem('playersList', JSON.stringify(playersList));
+}
+
+function drawPlayersList({parent, playersList}) {
+  playersList.forEach(players => {
+    let $li = document.createElement('li');
+    parent.appendChild($li);
+
+    let $loadButton = document.createElement('button');
+    $li.appendChild($loadButton);
+    $loadButton.type = 'button';
+    $loadButton.innerText = '불러오기';
+    $loadButton.classList.add('btns');
+    $loadButton.classList.add('ver-lesser');
+    $loadButton.classList.add('lightgray');
+    $loadButton.addEventListener('click', e => {
+      $txtInpt1.value = players;
+    });
+
+    // let $deleteButton = document.createElement('button');
+    // $li.appendChild($deleteButton);
+    // $deleteButton.type = 'button';
+    // $deleteButton.innerText = '삭제';
+    // $deleteButton.classList.add('btns');
+    // $deleteButton.classList.add('ver-lesser');
+    // $deleteButton.classList.add('lightgray');
+    // $deleteButton.addEventListener('click', e => {
+
+    // });
+
+    let $span = document.createElement('span');
+    $li.appendChild($span);
+    $span.innerText = ' ' + players;
+  });
 }
 
 function handleInputKeydown(e) {
   if (e.keyCode === 13) {
-    handleButtonClick();
+    handlePickButtonClick();
   }
-  localStorage.setItem('playerList', e.target.value);
+  localStorage.setItem('latestUserInput1', e.target.value);
 }
 
-function handleButtonClick() {
-  clear($resultUl);
-  clear($historyUl);
+function handlePickButtonClick() {
+  clear($resultList);
+  clear($histories);
   let value = $txtInpt1.value;
   if (!value) {
     return;
@@ -102,17 +148,34 @@ function handleButtonClick() {
   console.debug('values:', players);
   $result.style.display = 'block';
   let winner = pickWinner(players);
-  putWinnerStorage(winner);
-  drawHistory(getWinningHistory());
+  storeWinners(winner);
+  drawHistory({parent: $histories, winningHistory: loadWinningHistory()});
+}
+
+function handleSaveButtonClick() {
+  let value = $txtInpt1.value;
+  if (!value) {
+    return;
+  }
+  value = value.trim()
+  let playersList = loadPlayersList();
+  if (playersList.some(e => e === value)) { // 중복이면
+    return;
+  }
+  storePlayersList(value);
+  clear($saveList);
+  drawPlayersList({parent: $saveList, playersList: loadPlayersList()});
 }
 
 function attachEventHandlers() {
-  $btn1.addEventListener('click', handleButtonClick);
+  $pickBtn.addEventListener('click', handlePickButtonClick);
   $txtInpt1.addEventListener('keydown', handleInputKeydown);
+  $saveBtn.addEventListener('click', handleSaveButtonClick);
 }
 
 (function fireImmediatly() {
   attachEventHandlers()
-  $txtInpt1.value = localStorage.getItem('playerList');
-  drawHistory(getWinningHistory());
+  $txtInpt1.value = localStorage.getItem('latestUserInput1');
+  drawHistory({parent: $histories, winningHistory: loadWinningHistory()});
+  drawPlayersList({parent: $saveList, playersList: loadPlayersList()});
 })();
