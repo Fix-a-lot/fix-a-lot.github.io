@@ -68,7 +68,7 @@ function loadWinningHistory() {
 function storeWinners(winner) {
   let winningHistory = loadWinningHistory();
   winningHistory.unshift({
-    when: new Date().toLocaleString(),
+    when: new Date().toISOString(),
     winner
   });
   winningHistory = cutHistory(winningHistory);
