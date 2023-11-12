@@ -107,8 +107,9 @@ function drawPlayersList({parent, playersList}) {
     $loadButton.type = 'button';
     $loadButton.innerText = '불러오기';
     $loadButton.classList.add('btns');
-    $loadButton.classList.add('ver-lesser');
+    $loadButton.classList.add('size-lesser');
     $loadButton.classList.add('lightgray');
+    $loadButton.classList.add('effect-push');
     $loadButton.addEventListener('click', e => {
       $txtInpt1.value = players;
     });
@@ -118,8 +119,9 @@ function drawPlayersList({parent, playersList}) {
     // $deleteButton.type = 'button';
     // $deleteButton.innerText = '삭제';
     // $deleteButton.classList.add('btns');
-    // $deleteButton.classList.add('ver-lesser');
+    // $deleteButton.classList.add('size-lesser');
     // $deleteButton.classList.add('lightgray');
+    // $deleteButton.classList.add('effect-push');
     // $deleteButton.addEventListener('click', e => {
 
     // });
